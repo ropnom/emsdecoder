@@ -60,7 +60,9 @@ public class Message {
 			System.err.println("\n messageline");
 			System.err.println("\n Error:");
 			System.err.println(e.getMessage());
+			e.printStackTrace();
 			System.exit(1);
+			
 		}
 
 	}
@@ -72,7 +74,8 @@ public class Message {
 		humanmessage.add("\n");
 		humanmessage.add("|-------------------------------------------------------------------------------------------------|");
 		humanmessage.add(" Message: " + num + ", PRN: " + prn + " Time: " + time + " Type: " + GetTypeMessage(messagetype));
-		humanmessage.add(" " + egnosmessage + "   " + linefeedd);
+		humanmessage.add(" HEX: " + egnosmessage + "   " + linefeedd);
+		humanmessage.add(" BINARY: " + payload.PrintMessage());
 		humanmessage.add("|-------------------------------------------------------------------------------------------------|");
 
 		return humanmessage;
@@ -83,57 +86,74 @@ public class Message {
 		switch (this.messagetype) {
 		case 0:
 			//type = "SBAS TEST";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 1:
 			//type = "PRN MASK";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 2:
 		case 3:
 		case 4:
 		case 5:
 			//type = "FAST CORRECTIONS";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 6:
 			//type = "INTEGRITY INF";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 7:
 			//type = "FAST CORRECTIONS DEGRADATION FACTOR";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 9:
 			//type = "GEO NAV MESSAGE";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 10:
 			//type = "DEGRADATION PARAMETERS";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 12:
 			//type = "SBAS NETWORK TIME, UTC offset";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 17:
 			//type = "GEO satellite almanacs";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 18:
 			//type = "IONOSPHERIC grid point mask";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 24:
 			//type = "FAST & LONG TEMR ERROR CORRECTIONS";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 25:
 			//type = "LONG TERM ERROR CORRECTIONS";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 26:
 			//type = "IONOSPHERIC DELAY CORRECTIONS";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 27:
 			//type = "SBAS SERVICE MESSAGE";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 28:
 			//type = "CLOCK EPHEMERIS COVARIANCE MATRIX";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 62:
 			//type = "INTERNAL TEST MESSAGE";
+			this.payload = new Payload(egnosmessage);
 			break;
 		case 63:
 			//type = "NULL MESSAGE";
+			this.payload = new Payload(egnosmessage);
 			break;
 		default:
 			this.payload = new Payload(egnosmessage);

@@ -50,7 +50,7 @@ public class emsdecoder {
 		int hour = 0;
 
 		boolean show = false;
-		int mode = 1;
+		int mode = 1;//file mode
 
 		int inityear = Calendar.getInstance().get(Calendar.YEAR);
 		int initday = 3;

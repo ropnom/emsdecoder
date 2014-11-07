@@ -2,15 +2,12 @@ package dates;
 
 public class ConsoleView {
 
-	
-	public void View(){
+	public void View() {
 		System.out.println(System.getProperty("os.name").toLowerCase());
 
 		float porcent = 0;
 		for (int i = 0; i < 73; i++) {
-
 			try {
-				
 				Process exitCode;
 				Runtime r = Runtime.getRuntime();
 				if (System.getProperty("os.name").startsWith("Window")) {
@@ -20,14 +17,12 @@ public class ConsoleView {
 				}
 				System.out.println(exitCode);
 
-
 			} catch (Exception e) {
 
 				for (int j = 0; j < 200; j++) {
 					System.out.println();
 				}
-				//e.printStackTrace();
-
+				// e.printStackTrace();
 			}
 
 			System.out.println("\n");

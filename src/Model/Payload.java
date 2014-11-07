@@ -1,6 +1,5 @@
 package Model;
 
-import javax.xml.bind.DatatypeConverter;
 
 public class Payload {
 
@@ -18,23 +17,28 @@ public class Payload {
 
 	public void decode() {
 
-		String message = "";
+		this. message = "";
 		for (int i = 0; i < binarymessage.length; i++) {
 			message = message + toBinaryString(binarymessage[i]);
-		}		
+		}
 	}
-	
-	public String PrintMessage(){
-		
-		if(message == null)
+
+	public String PrintMessage() {
+
+		if (message == null)
 			decode();
-		
+
 		return message;
-		
+
 	}
 
 	public static byte[] toByteArray(String s) {
-		return DatatypeConverter.parseHexBinary(s);
+		byte data[] = new byte[s.length() / 2];
+
+		for (int i = 0; i < (s.length() - 1); i += 2) {
+			data[i / 2] = (Integer.decode("0x" + s.charAt(i) + s.charAt(i + 1))).byteValue();
+		}
+		return data;
 	}
 
 	public static String toBinaryString(byte n) {
