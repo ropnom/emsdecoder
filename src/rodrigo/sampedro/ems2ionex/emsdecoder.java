@@ -23,7 +23,7 @@ public class emsdecoder {
 	private static int day = 12;
 	private static int hour = 0;
 
-	private static int mode = 1;// file mode
+	private static int mode = 0;// file mode
 
 	private static int inityear = Calendar.getInstance().get(Calendar.YEAR);
 	private static int initday = 3;
@@ -116,7 +116,7 @@ public class emsdecoder {
 
 	public static void main(String[] args) {
 
-		boolean debug = true;
+		boolean debug = false;
 
 		if (debug) {
 			// DEMO debug
