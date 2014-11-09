@@ -11,9 +11,108 @@ import Model.WriteCurrentData;
 
 public class emsdecoder {
 
+	private static float porcent = 0;
+	private static int count = 0;
+	private static int visual = 3600;// 3600 lines each file
+	private static boolean show = false;
+
+	// DECLARE VARIABLES IN PROGRAM
+
+	private static String server = "ftp://ems.estec.esa.int/pub/";
+	private static String prn = "PRN120/";
+	private static int day = 12;
+	private static int hour = 0;
+
+	private static int mode = 1;// file mode
+
+	private static int inityear = Calendar.getInstance().get(Calendar.YEAR);
+	private static int initday = 3;
+	private static int endday = 3;
+	private static int inithour = 23;
+	private static int endhour = 23;
+	private static int MAXDAY = 365;
+	private static List<String> originalmessage = new ArrayList<String>();
+
+	// DECODE Message
+	private static Message message = null;
+	private static List<String> human = new ArrayList<String>();
+	private static List<String> message26 = new ArrayList<String>();
+
+	// FUNCTIONS
+
 	public static void PrintHelp() {
+		System.out.println("-------------------------------------------------------------------------------------");
+		System.out.println(" ***                      EMS DECODER 0.01 ALFA  --HELP                           ***");
+		System.out.println(" -------------------------------------------------------------------------------------");
+		System.out.println("");
+		System.out.println(" --ModeFile  : Use currentmessage.txt as server of Egnos information.");
+		System.out.println(" -Show		: Show in the screen the % of download and events.");
+		System.out.println(" -PRN120		: Use Egnos Message from PRN120 (by default).");
+		System.out.println(" -PRN126		: Use Egnos Message from PRN126.");
+		System.out.println(" -TODAY		: Download the EMS message from 23h 2 days ago until 0:00 of today.");
+		System.out.println(" -Y XXXX		: Specific Year where XXXX is per example 2012.");
+		System.out.println(" -D XXX		: Specific Day, number of the day 0-365 (366) days of the year.");
+		System.out.println(" -H			: Specific Hour, number of hours 0-23 h.");
+		System.out.println("");
+		System.out.println(" Example:");
+		System.out.println(" emsdecoder -Show -PRN126 -TODAY");
+		System.out.println(" emsdecoder -Show -PRN126 -Y 2014 -D 324 -H 15");
+	}
+
+	public static synchronized void Countline() {
+
+		count++;
+		if (show) {
+			int i = ((100 * count) / visual);
+			float newporcent = (100 * (float) count) / visual;
+
+			if (newporcent - porcent > 0.01) {
+				porcent = newporcent;
+				ViewonScreen(i);
+			}
+		}
 
 	}
+
+	public static void ViewonScreen(int i) {
+
+		try {
+			Process exitCode;
+			Runtime r = Runtime.getRuntime();
+			if (System.getProperty("os.name").startsWith("Window")) {
+				exitCode = r.exec("cls");
+			} else {
+				exitCode = r.exec("clear");
+			}
+			System.out.println(exitCode);
+
+		} catch (Exception e) {
+
+			for (int j = 0; j < 200; j++) {
+				System.out.println();
+			}
+			// e.printStackTrace();
+		}
+
+		System.out.println("\n");
+		System.out.println("  ******************************************");
+		System.out.println("  | DONWLOADING FILES FROM ESA SERVER ...  |");
+		System.out.println("  ******************************************");
+		System.out.println("\n");
+		System.out.print("  +");
+		for (int l = 0; l < i; l++) {
+			System.out.print("-");
+		}
+
+		System.out.print("  " + String.format("%.3f", porcent) + "% Downloading...");
+
+		if (i >= 100) {
+			System.out.print("+  " + String.format("%.2f", porcent) + "% COMPLETE");
+			System.out.println("END");
+		}
+	}
+
+	// ------------------------------ MAIN --------------------------------
 
 	public static void main(String[] args) {
 
@@ -36,31 +135,9 @@ public class emsdecoder {
 
 			// TODO: FALTAN LOS MENSAJES DE SALIDA HELP
 			PrintHelp();
-			System.err.println("\nUsage: java JGet [urlToGet]");
+			System.err.println("\n Input Argument Error use --HELP");
 			System.exit(1);
 		}
-
-		// DECLARE VARIABLES IN PROGRAM
-		int visual = 3600;// 3600 lines each file
-		float porcentdownload = 0;
-
-		String server = "ftp://ems.estec.esa.int/pub/";
-		String prn = "PRN120/";
-		int day = 12;
-		int hour = 0;
-
-		boolean show = false;
-		int mode = 1;//file mode
-
-		int inityear = Calendar.getInstance().get(Calendar.YEAR);
-		int initday = 3;
-		int endday = 3;
-		int inithour = 23;
-		int endhour = 23;
-		int MAXDAY = 365;
-		List<String> originalmessage = new ArrayList<String>();
-		
-		
 
 		// Check argmument input
 		for (int i = 0; i < args.length; i++) {
@@ -135,16 +212,15 @@ public class emsdecoder {
 				visual = visual * ((24 - inithour) + endhour + 24 * (endday - initday));
 			else
 				visual = visual * (endhour - inithour);
-
 		}
 
-		
+		// -----------------------------------------------------------------------------------------------------------------------
 
 		// PREPARE DOWNLOAD LIST FILES AND DECODER
 		if (mode == 0) {
 			// Configure Jget
 			Jget wget = new Jget();
-			// calcule if the day have 365 or 366 days			
+			// calcule if the day have 365 or 366 days
 			if (inityear % 4 == 0 && inityear % 100 != 0 || inityear % 400 == 0) {
 				MAXDAY = 366;
 			}
@@ -176,13 +252,9 @@ public class emsdecoder {
 			LoadDataFile load = new LoadDataFile();
 			originalmessage = load.LoadData();
 		}
-		
-		
-		
 
-		// DECODE Message
-		Message message = null;
-		List<String> human = new ArrayList<String>();
+		// ------------------------------------------------------------------------------------
+
 		for (int i = 0; i < originalmessage.size(); i++) {
 			message = new Message(originalmessage.get(i), i);
 			human.addAll(message.WriteHumanFile());
@@ -191,6 +263,8 @@ public class emsdecoder {
 		WriteCurrentData writer = new WriteCurrentData();
 		writer.setFilename("humanmessage.txt");
 		writer.Write(human);
+
+		System.out.println("FIN **");
 
 	}
 }
