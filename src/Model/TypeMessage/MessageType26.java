@@ -90,4 +90,38 @@ public class MessageType26 extends Payload {
 		return this.message;
 	}
 
+	public int getBandnumber() {
+		return bandnumber;
+	}
+
+	public void setBandnumber(int bandnumber) {
+		this.bandnumber = bandnumber;
+	}
+
+	public int getBlockid() {
+		return blockid;
+	}
+
+	public void setBlockid(int blockid) {
+		this.blockid = blockid;
+	}
+
+	public GridPoint[] getGridpoints() {
+		return gridpoints;
+	}
+
+	public void setGridpoints(GridPoint[] gridpoints) {
+		this.gridpoints = gridpoints;
+	}
+
+	public int getIoid() {
+		return ioid;
+	}
+
+	public void setIoid(int ioid) {
+		this.ioid = ioid;
+	}
+	
+	
+
 }

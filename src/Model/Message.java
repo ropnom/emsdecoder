@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import Model.TypeMessage.MessageType18;
 import Model.TypeMessage.MessageType26;
 
 public class Message {
@@ -125,7 +126,7 @@ public class Message {
 			break;
 		case 18:
 			//type = "IONOSPHERIC grid point mask";
-			this.payload = new Payload(egnosmessage);
+			this.payload = new MessageType18(egnosmessage);
 			break;
 		case 24:
 			//type = "FAST & LONG TEMR ERROR CORRECTIONS";
