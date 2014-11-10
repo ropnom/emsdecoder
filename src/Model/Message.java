@@ -70,14 +70,12 @@ public class Message {
 	//Functions
 	public List<String> WriteHumanFile() {
 		List<String> humanmessage = new ArrayList<String>();
-
 		humanmessage.add("\n");
 		humanmessage.add("|-------------------------------------------------------------------------------------------------|");
 		humanmessage.add(" Message: " + num + ", PRN: " + prn + " Time: " + time + " Type: " + GetTypeMessage(messagetype));
 		humanmessage.add(" HEX: " + egnosmessage + "   " + linefeedd);
 		humanmessage.add(" BINARY: " + payload.PrintMessage());
 		humanmessage.add("|-------------------------------------------------------------------------------------------------|");
-
 		return humanmessage;
 	}
 	

@@ -51,13 +51,17 @@ public class testwrite {
 		if (initbits > 0 && numbytes > 1) {
 			for (int i = 0; i < numbytes; i++) {
 				if (i != numbytes - 1) {
-//					System.out.println(toBinaryString(ram[i]));
-//					System.out.println(toBinaryString((byte) (ram[i] << initbits)));
-//					System.out.println(toBinaryString(ram[i + 1]));
-//					System.out.println(toBinaryString((byte) ((ram[i + 1] & 0xff)  >>> (8 - initbits))));
-//					System.out.println(toBinaryString((byte) (ram[i + 1] >> (8 - initbits))));
+					// System.out.println(toBinaryString(ram[i]));
+					// System.out.println(toBinaryString((byte) (ram[i] <<
+					// initbits)));
+					// System.out.println(toBinaryString(ram[i + 1]));
+					// System.out.println(toBinaryString((byte) ((ram[i + 1] &
+					// 0xff) >>> (8 - initbits))));
+					// System.out.println(toBinaryString((byte) (ram[i + 1] >>
+					// (8 - initbits))));
 					// esto no funciona
-					//required[i] = (byte) ((byte) (ram[i] << initbits) + (byte) (ram[i + 1] >>> (8 - initbits)));
+					// required[i] = (byte) ((byte) (ram[i] << initbits) +
+					// (byte) (ram[i + 1] >>> (8 - initbits)));
 					required[i] = (byte) ((byte) (ram[i] << initbits) + (byte) ((ram[i + 1] & 0xff) >>> (8 - initbits)));
 				} else {
 					// last iteration
@@ -74,6 +78,16 @@ public class testwrite {
 		return required;
 	}
 
+	public static final int byteToInt(byte[] b) {
+
+		int l = 0;
+		for (int i = 0; i < b.length; i++) {
+			l |= b[i] & 0xFF;
+			l <<= 8;
+		}
+		return l;
+	}
+
 	public static void main(String[] args) throws InterruptedException {
 
 		byte a = (byte) 0xF0;
@@ -87,8 +101,7 @@ public class testwrite {
 		System.out.println(toBinaryString(b));
 		System.out.println(c);
 		System.out.println(toBinaryString(c));
-		
-		
+
 		String hex = "F0F210F0";
 		// String hex =
 		// "530C3FE0003FC7FEBFE4003FDC000000020003FF80017999F9FB9B97885";
@@ -129,6 +142,45 @@ public class testwrite {
 		for (int i = 0; i < compac.length; i++) {
 			System.out.println("Byte number " + i + " " + toBinaryString(compac[i]));
 		}
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+
+		System.out.println(a);
 
 		// Message message = new
 		// Message("120 14 10 31 23 00 11 26 9A6A53FDFFEF05683741780AC04601F017A0FE0977FBFFDFFEFFF78011657800",

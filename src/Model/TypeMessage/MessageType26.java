@@ -14,7 +14,7 @@ public class MessageType26 extends Payload {
 
 		}
 
-		public GridPoint(byte[] IGPVerticalDelay, byte GIVEI) {
+		public GridPoint(byte[] IGPVerticalDelay, byte[] GIVEI) {
 
 		}
 

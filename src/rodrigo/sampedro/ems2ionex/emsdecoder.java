@@ -20,16 +20,16 @@ public class emsdecoder {
 
 	private static String server = "ftp://ems.estec.esa.int/pub/";
 	private static String prn = "PRN120/";
-	private static int day = 12;
-	private static int hour = 0;
+	private static short day = 12;
+	private static short hour = 0;
 
-	private static int mode = 0;// file mode
+	private static short mode = 0;// file mode
 
-	private static int inityear = Calendar.getInstance().get(Calendar.YEAR);
-	private static int initday = 3;
-	private static int endday = 3;
-	private static int inithour = 23;
-	private static int endhour = 23;
+	private static short inityear = (short) Calendar.getInstance().get(Calendar.YEAR);
+	private static short initday = 3;
+	private static short endday = 3;
+	private static short inithour = 23;
+	private static short endhour = 23;
 	private static int MAXDAY = 365;
 	private static List<String> originalmessage = new ArrayList<String>();
 
@@ -156,21 +156,21 @@ public class emsdecoder {
 			if (args[i] == "-TODAY") {
 				int today = Calendar.getInstance().get(Calendar.DAY_OF_YEAR) - 1;
 				if (today == 0) {
-					inityear = inityear - 1;
+					inityear = (short) (inityear - 1);
 					initday = 365;
 					if (inityear % 4 == 0 && inityear % 100 != 0 || inityear % 400 == 0) {
 						initday = 366;
 					}
 					endday = 1;
 				} else {
-					initday = today - 1;
-					endday = today;
+					initday = (short) (today - 1);
+					endday = (short) today;
 				}
 			}
 			// Year
 			try {
 				if (args[i] == "-Y") {
-					inityear = Integer.parseInt(args[i + 1]);
+					inityear =  Short.parseShort(args[i + 1]);
 				}
 			} catch (Exception e) {
 				System.err.println("\n Input format was Wrong.");
@@ -181,9 +181,9 @@ public class emsdecoder {
 			// Day
 			try {
 				if (args[i] == "-D") {
-					int today = Integer.parseInt(args[i + 1]);
-					initday = today;
-					endday = today;
+					int today = Short.parseShort(args[i + 1]);
+					initday = (short) today;
+					endday = (short) today;
 					inithour = 0;
 					endhour = 23;
 				}
@@ -195,9 +195,9 @@ public class emsdecoder {
 			// Hour
 			try {
 				if (args[i] == "-H") {
-					int h = Integer.parseInt(args[i + 1]);
-					inithour = h;
-					endhour = h;
+					int h = Short.parseShort(args[i + 1]);
+					inithour = (short) h;
+					endhour = (short) h;
 				}
 			} catch (Exception e) {
 				System.err.println("\n Input format was Wrong.");
