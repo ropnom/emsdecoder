@@ -2,9 +2,9 @@ package Model;
 
 public class Payload {
 
-	private String message;
-	public byte[] binarymessage;
-	public int currentbit = 1;
+	protected String message;
+	protected byte[] binarymessage;
+	protected int currentbit = 1;
 
 	public Payload() {
 
@@ -27,7 +27,7 @@ public class Payload {
 
 		if (message == null)
 			decode();
-
+		message = "BINARY: " + message;
 		return message;
 
 	}
@@ -75,17 +75,7 @@ public class Payload {
 		if (initbits > 0 && numbytes > 1) {
 			for (int i = 0; i < numbytes; i++) {
 				if (i != numbytes - 1) {
-					// System.out.println(toBinaryString(ram[i]));
-					// System.out.println(toBinaryString((byte) (ram[i] <<
-					// initbits)));
-					// System.out.println(toBinaryString(ram[i + 1]));
-					// System.out.println(toBinaryString((byte) ((ram[i + 1] &
-					// 0xff) >>> (8 - initbits))));
-					// System.out.println(toBinaryString((byte) (ram[i + 1] >>
-					// (8 - initbits))));
-					// esto no funciona
-					// required[i] = (byte) ((byte) (ram[i] << initbits) +
-					// (byte) (ram[i + 1] >>> (8 - initbits)));
+					
 					required[i] = (byte) ((byte) (ram[i] << initbits) + (byte) ((ram[i + 1] & 0xff) >>> (8 - initbits)));
 				} else {
 					// last iteration
@@ -107,8 +97,9 @@ public class Payload {
 		int l = 0;
 		for (int i = 0; i < b.length; i++) {
 			l |= b[i] & 0xFF;
-			l <<= 8;
-		}		
+			if(i<b.length-1)
+				l <<= 8;
+		}
 		return l;
 	}
 

@@ -83,14 +83,15 @@ public class testwrite {
 		int l = 0;
 		for (int i = 0; i < b.length; i++) {
 			l |= b[i] & 0xFF;
-			l <<= 8;
+			if(i<b.length-1)
+				l <<= 8;
 		}
 		return l;
 	}
 
 	public static void main(String[] args) throws InterruptedException {
 
-		byte a = (byte) 0xF0;
+		byte a = (byte) 0x0F;
 		System.out.println(toBinaryString(a));
 		System.out.println(a);
 
@@ -180,7 +181,10 @@ public class testwrite {
 		System.out.println();
 		System.out.println();
 
-		System.out.println(a);
+		System.out.println(toBinaryString(a));
+		byte[] num = new byte[1];
+		num[0] = a;
+		System.out.println(byteToInt(num));
 
 		// Message message = new
 		// Message("120 14 10 31 23 00 11 26 9A6A53FDFFEF05683741780AC04601F017A0FE0977FBFFDFFEFFF78011657800",

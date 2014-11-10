@@ -116,7 +116,8 @@ public class emsdecoder {
 
 	public static void main(String[] args) {
 
-		boolean debug = false;
+		boolean debug = true;
+		mode = 1;
 
 		if (debug) {
 			// DEMO debug

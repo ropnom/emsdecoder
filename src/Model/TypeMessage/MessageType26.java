@@ -4,18 +4,20 @@ import Model.Payload;
 
 public class MessageType26 extends Payload {
 
-	//subclass inside
+	// subclass inside
 	public class GridPoint {
 
 		private float IGP_VerticalDelay = 0;
-		private float GIVEI = 0;
+		private short GIVEI = 0;
 
 		public GridPoint() {
 
 		}
 
-		public GridPoint(byte[] IGPVerticalDelay, byte[] GIVEI) {
+		public GridPoint(int IGPVerticalDelay, int GIVEI) {
 
+			this.IGP_VerticalDelay = (float) (IGPVerticalDelay * 0.125);
+			this.GIVEI = (short) GIVEI;
 		}
 
 		public float getIGP_VerticalDelay() {
@@ -26,24 +28,27 @@ public class MessageType26 extends Payload {
 			IGP_VerticalDelay = iGP_VerticalDelay;
 		}
 
-		public float getGIVEI() {
+		public int getGIVEI() {
 			return GIVEI;
 		}
 
-		public void setGIVEI(float gIVEI) {
+		public void setGIVEI(short gIVEI) {
 			GIVEI = gIVEI;
 		}
 
 	}
 
-	// Parameters 
-	
+	private static final int BLOCK_GRID_POINTS = 15;
+
+	// Parameters
+
 	private int bandnumber;
 	private int blockid;
 	private GridPoint[] gridpoints;
+	private int ioid;
 
 	public MessageType26() {
-
+		this.gridpoints = new GridPoint[15];
 	}
 
 	public MessageType26(String message) {
@@ -53,6 +58,36 @@ public class MessageType26 extends Payload {
 	@Override
 	public void decode() {
 
+		this.currentbit = 0;
+		// DECODE MESSAGE TYPE 26
+		// BAND NUMBER 4 BITS
+		this.bandnumber = byteToInt(Getbits(4));
+		// BLOCK ID
+		this.blockid = byteToInt(Getbits(4));
+
+		// 15 block of IGP vertical (9bits) delay & GIVEI (4bits)
+		this.gridpoints = new GridPoint[BLOCK_GRID_POINTS];
+		for (int i = 0; i < BLOCK_GRID_POINTS; i++) {
+			gridpoints[i] = new GridPoint(byteToInt(Getbits(9)), byteToInt(Getbits(4)));
+		}
+
+		// IODI (2bits)
+		this.ioid = byteToInt(Getbits(2));
+
+		// SPARE (9bits) not used
+
+	}
+
+	@Override
+	public String PrintMessage() {
+		
+		// Make message decoder
+		this.message = "BANDNUMBER: "+this.bandnumber+" BLOCKID: "+this.blockid;
+		for(int i = 0; i<BLOCK_GRID_POINTS; i++){
+			this.message += " IGP"+i+": " + this.gridpoints[i].getIGP_VerticalDelay()+ " GIVEI"+i+": "+this.gridpoints[i].getGIVEI()+" |";
+		}
+						
+		return this.message;
 	}
 
 }

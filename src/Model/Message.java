@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import Model.TypeMessage.MessageType26;
+
 public class Message {
 
 	//parameters
@@ -74,7 +76,7 @@ public class Message {
 		humanmessage.add("|-------------------------------------------------------------------------------------------------|");
 		humanmessage.add(" Message: " + num + ", PRN: " + prn + " Time: " + time + " Type: " + GetTypeMessage(messagetype));
 		humanmessage.add(" HEX: " + egnosmessage + "   " + linefeedd);
-		humanmessage.add(" BINARY: " + payload.PrintMessage());
+		humanmessage.add(" " + payload.PrintMessage());
 		humanmessage.add("|-------------------------------------------------------------------------------------------------|");
 		return humanmessage;
 	}
@@ -135,7 +137,7 @@ public class Message {
 			break;
 		case 26:
 			//type = "IONOSPHERIC DELAY CORRECTIONS";
-			this.payload = new Payload(egnosmessage);
+			this.payload = new MessageType26(egnosmessage);
 			break;
 		case 27:
 			//type = "SBAS SERVICE MESSAGE";
