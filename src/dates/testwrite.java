@@ -83,7 +83,7 @@ public class testwrite {
 		int l = 0;
 		for (int i = 0; i < b.length; i++) {
 			l |= b[i] & 0xFF;
-			if(i<b.length-1)
+			if (i < b.length - 1)
 				l <<= 8;
 		}
 		return l;
@@ -103,7 +103,8 @@ public class testwrite {
 		System.out.println(c);
 		System.out.println(toBinaryString(c));
 
-		String hex = "F0F210F0";
+		String hex = "C66A43FDFFEFFF7FFBC21A10C08583A81B20D806C836815206902C8038C26880";
+		// String hex = "F0F210F0";
 		// String hex =
 		// "530C3FE0003FC7FEBFE4003FDC000000020003FF80017999F9FB9B97885";
 		binarymessage = new byte[hex.length()];
@@ -121,28 +122,31 @@ public class testwrite {
 			System.out.println("Byte number " + i + " " + toBinaryString(binarymessage[i]));
 		}
 
-		System.out.println("Give me bit 2-8");
-		currentbit = 2;
-		compac = new byte[1];
-		compac = Getbits(6);
-
-		for (int i = 0; i < compac.length; i++) {
-			System.out.println("Byte number " + i + " " + toBinaryString(compac[i]));
-		}
-
-		System.out.println("Give me bit 8-18");
-		compac = Getbits(10);
-
-		for (int i = 0; i < compac.length; i++) {
-			System.out.println("Byte number " + i + " " + toBinaryString(compac[i]));
-		}
-
-		System.out.println("Give me bit 18-27");
-		compac = Getbits(9);
-
-		for (int i = 0; i < compac.length; i++) {
-			System.out.println("Byte number " + i + " " + toBinaryString(compac[i]));
-		}
+		// System.out.println("Give me bit 2-8");
+		// currentbit = 2;
+		// compac = new byte[1];
+		// compac = Getbits(6);
+		//
+		// for (int i = 0; i < compac.length; i++) {
+		// System.out.println("Byte number " + i + " " +
+		// toBinaryString(compac[i]));
+		// }
+		//
+		// System.out.println("Give me bit 8-18");
+		// compac = Getbits(10);
+		//
+		// for (int i = 0; i < compac.length; i++) {
+		// System.out.println("Byte number " + i + " " +
+		// toBinaryString(compac[i]));
+		// }
+		//
+		// System.out.println("Give me bit 18-27");
+		// compac = Getbits(9);
+		//
+		// for (int i = 0; i < compac.length; i++) {
+		// System.out.println("Byte number " + i + " " +
+		// toBinaryString(compac[i]));
+		// }
 
 		System.out.println();
 		System.out.println();
@@ -186,12 +190,10 @@ public class testwrite {
 		num[0] = a;
 		System.out.println(byteToInt(num));
 
-		// Message message = new
-		// Message("120 14 10 31 23 00 11 26 9A6A53FDFFEF05683741780AC04601F017A0FE0977FBFFDFFEFFF78011657800",
-		// 1);
-		// for (String print : message.WriteHumanFile()) {
-		// System.out.println(print);
-		// }
+		Message message = new Message("120 14 10 31 23 00 15 26 C66A43FDFFEFFF7FFBC21A10C08583A81B20D806C836815206902C8038C26880", 1);
+		for (String print : message.WriteHumanFile()) {
+			System.out.println(print);
+		}
 
 	}
 }

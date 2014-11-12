@@ -17,7 +17,11 @@ public class MessageType26 extends Payload {
 		public GridPoint(int IGPVerticalDelay, int GIVEI) {
 
 			this.IGP_VerticalDelay = (float) (IGPVerticalDelay * 0.125);
+			System.out.println(IGPVerticalDelay);
+			System.out.println(this.IGP_VerticalDelay );
 			this.GIVEI = (short) GIVEI;
+			System.out.println(GIVEI);
+			System.out.println(this.GIVEI);
 		}
 
 		public float getIGP_VerticalDelay() {
@@ -61,18 +65,18 @@ public class MessageType26 extends Payload {
 		this.currentbit = 0;
 		// DECODE MESSAGE TYPE 26
 		// BAND NUMBER 4 BITS
-		this.bandnumber = byteToInt(Getbits(4));
+		this.bandnumber = byteToInt(Getbits(4),4);
 		// BLOCK ID
-		this.blockid = byteToInt(Getbits(4));
+		this.blockid = byteToInt(Getbits(4),4);
 
 		// 15 block of IGP vertical (9bits) delay & GIVEI (4bits)
 		this.gridpoints = new GridPoint[BLOCK_GRID_POINTS];
 		for (int i = 0; i < BLOCK_GRID_POINTS; i++) {
-			gridpoints[i] = new GridPoint(byteToInt(Getbits(9)), byteToInt(Getbits(4)));
+			gridpoints[i] = new GridPoint(byteToInt(Getbits(9),9), byteToInt(Getbits(4),4));
 		}
 
 		// IODI (2bits)
-		this.ioid = byteToInt(Getbits(2));
+		this.ioid = byteToInt(Getbits(2),2);
 
 		// SPARE (9bits) not used
 

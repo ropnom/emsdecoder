@@ -63,43 +63,70 @@ public class Payload {
 			// get byte from message where are the bits
 			ram[i] = binarymessage[currentbit / 8 + i];
 			// fist iteration
-			if (i == 0) {
-				// move bit to left to make all compact.
-				if (numbits <= 8 & initbits > 0 & numbytes == 1) {
-					required[i] = (byte) (ram[i] << initbits);
-				}
-			}
+			// if (i == 0) {
+			// move bit to left to make all compact.
+			// if (numbits <= 8 & initbits > 0 & numbytes == 1) {
+			// required[i] = (byte) (ram[i] << initbits);
+			// }
+			// }
 		}
 
 		// to compact byte response
-		if (initbits > 0 && numbytes > 1) {
+		if (initbits == 0 & numbytes == 1) {
+			required[0] = (byte) (ram[0] & (0xFF << (8 - numbits)));
+		} else if (initbits == 0 & numbytes > 1) {
+			// lo mismo no hay que mover ningun byte solo tener cuidado con el
+			// ultimo
+			ram[ram.length - 1] = (byte) (ram[ram.length - 1] & (0xFF << ((8 - (numbits % 8)) % 8)));
+			required = ram;
+		} else if (initbits > 0 && numbytes == 1) {
+			// primero ajustamos depsues hacemos lo mismo que antes
+			ram[0] = (byte) (ram[0] << initbits);
+			ram[0] = (byte) (ram[0] & (0xFF << ((8 - (numbits % 8)) % 8)));
+			required = ram;
+		} else if (initbits > 0 && numbytes > 1) {
+
 			for (int i = 0; i < numbytes; i++) {
 				if (i != numbytes - 1) {
-					
+					// esto no funciona
+					// required[i] = (byte) ((byte) (ram[i] << initbits) +
+					// (byte) (ram[i + 1] >>> (8 - initbits)));
+
+					// ajustamos
 					required[i] = (byte) ((byte) (ram[i] << initbits) + (byte) ((ram[i + 1] & 0xff) >>> (8 - initbits)));
 				} else {
 					// last iteration
+					// ajustamos y limitamos los ultimos bits
 					required[i] = (byte) (ram[i] << initbits);
+					ram[i] = (byte) (ram[i] & (0xFF << (8 - (numbits % 8))));
 				}
 			}
 
-		} else if (numbytes > 1) {
-			ram[ram.length - 1] = (byte) (ram[ram.length - 1] & (0xFF << (8 - (numbits % 8))));
-			required = ram;
 		}
 
 		currentbit += numbits;
+		for (int i = 0; i < required.length; i++) {
+			System.out.println(toBinaryString(required[i]));
+		}
+
 		return required;
 	}
 
-	public static final int byteToInt(byte[] b) {
+	public static final int byteToInt(byte[] b, int numbits) {
+
+		if (numbits % 8 != 0) {
+			b[b.length - 1] = (byte) (b[b.length - 1] >> (8 - numbits % 8));
+		}
 
 		int l = 0;
 		for (int i = 0; i < b.length; i++) {
+			System.out.println(toBinaryString(b[i]));
 			l |= b[i] & 0xFF;
-			if(i<b.length-1)
+			System.out.println(l);
+			if (i < b.length - 1)
 				l <<= 8;
 		}
+		System.out.println(l);
 		return l;
 	}
 

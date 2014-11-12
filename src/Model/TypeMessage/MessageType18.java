@@ -26,11 +26,11 @@ public class MessageType18 extends Payload {
 		// DECODE MESSAGE TYPE 18
 
 		// Number of Bands (4 bits)
-		this.numberofbands = byteToInt(Getbits(4));
+		this.numberofbands = byteToInt(Getbits(4),4);
 		// Band Number (4 bits)
-		this.bandnumber = byteToInt(Getbits(4));
+		this.bandnumber = byteToInt(Getbits(4),4);
 		// IODI (2 bits)
-		this.iodi = byteToInt(Getbits(2));
+		this.iodi = byteToInt(Getbits(2),2);
 		// 201 bits MASK FIELD
 		this.igpmask = Getbits(201);
 
