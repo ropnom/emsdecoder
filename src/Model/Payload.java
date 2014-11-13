@@ -55,7 +55,9 @@ public class Payload {
 		// calculate initbit and number of bytes that we need
 		int initbits = currentbit % 8;
 		int numbytes = 1 + (numbits) / 8;
-		int rambytes = 1 + (initbits + numbits) / 8;
+		
+		int rambytes = (int) Math.ceil( (float) (initbits + numbits) / 8.0);
+		
 		byte required[] = new byte[numbytes];
 		byte ram[] = new byte[rambytes];
 
@@ -115,11 +117,18 @@ public class Payload {
 	public static final int byteToInt(byte[] b, int numbits) {
 
 		if (numbits % 8 != 0) {
-			b[b.length - 1] = (byte) (b[b.length - 1] >> (8 - numbits % 8));
+			b[b.length - 1] = (byte) ((b[b.length - 1] & 0xff) >>> (8 - (numbits % 8)));
 		}
 
 		int l = 0;
-		for (int i = 0; i < b.length; i++) {
+		//ojo hay que mover a la derecha los bits que queden
+		//el problema es el orden de lso bits que estan segun llegan y por lo tanto complica un pooc el porceso
+		// 1º empezar por el final tomar el valor de el ultimo byte
+		// 2º mover tantos bit como el que tenga el final util
+		// en caso de haber mas de 2 bytes los utiles + 8 por cada iteracion de i
+		
+		//*** replantear por completo la funcion
+		for (int i = b.length-1; i >-1; i--) {
 			System.out.println(toBinaryString(b[i]));
 			l |= b[i] & 0xFF;
 			System.out.println(l);
