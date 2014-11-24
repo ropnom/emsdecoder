@@ -65,18 +65,18 @@ public class MessageType26 extends Payload {
 		this.currentbit = 0;
 		// DECODE MESSAGE TYPE 26
 		// BAND NUMBER 4 BITS
-		this.bandnumber = byteToInt(Getbits(4),4);
+		this.bandnumber = byteToInt(Getbits(4));
 		// BLOCK ID
-		this.blockid = byteToInt(Getbits(4),4);
+		this.blockid = byteToInt(Getbits(4));
 
 		// 15 block of IGP vertical (9bits) delay & GIVEI (4bits)
 		this.gridpoints = new GridPoint[BLOCK_GRID_POINTS];
 		for (int i = 0; i < BLOCK_GRID_POINTS; i++) {
-			gridpoints[i] = new GridPoint(byteToInt(Getbits(9),9), byteToInt(Getbits(4),4));
+			gridpoints[i] = new GridPoint(byteToInt(Getbits(9)), byteToInt(Getbits(4)));
 		}
 
 		// IODI (2bits)
-		this.ioid = byteToInt(Getbits(2),2);
+		this.ioid = byteToInt(Getbits(2));
 
 		// SPARE (9bits) not used
 

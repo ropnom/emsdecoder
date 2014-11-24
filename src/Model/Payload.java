@@ -55,11 +55,13 @@ public class Payload {
 		// calculate initbit and number of bytes that we need
 		int initbits = currentbit % 8;
 		int numbytes = 1 + (numbits) / 8;
-		
-		int rambytes = (int) Math.ceil( (float) (initbits + numbits) / 8.0);
-		
+
+		int rambytes = (int) Math.ceil((float) (initbits + numbits) / 8.0);
+
 		byte required[] = new byte[numbytes];
 		byte ram[] = new byte[rambytes];
+
+		int movidos = ((8 - (numbits % 8)) % 8);
 
 		for (int i = 0; i < rambytes; i++) {
 			// get byte from message where are the bits
@@ -75,32 +77,52 @@ public class Payload {
 
 		// to compact byte response
 		if (initbits == 0 & numbytes == 1) {
-			required[0] = (byte) (ram[0] & (0xFF << (8 - numbits)));
+
+			required[0] = (byte) ((ram[0] & 0xff) >>> (8 - numbits));
+
 		} else if (initbits == 0 & numbytes > 1) {
-			// lo mismo no hay que mover ningun byte solo tener cuidado con el
-			// ultimo
-			ram[ram.length - 1] = (byte) (ram[ram.length - 1] & (0xFF << ((8 - (numbits % 8)) % 8)));
-			required = ram;
+			// igual solo que hay que mover en todos el desfase hacia la derecha
+			for (int i = ram.length - 1; i >= 0; i--) {
+				// si es el ultimo solo tenemos en cuenta ese byte
+				if (i == 0) {
+
+					required[i] = (byte) ((ram[i] & 0xFF) >>> movidos);
+					System.out.println(toBinaryString(required[i]));
+				} else {
+
+					required[i] = (byte) ((byte) ((ram[i] & 0xFF) >>> movidos) + (byte) (ram[i - 1] << (8 - movidos)));
+				}
+			}
+
 		} else if (initbits > 0 && numbytes == 1) {
-			// primero ajustamos depsues hacemos lo mismo que antes
-			ram[0] = (byte) (ram[0] << initbits);
-			ram[0] = (byte) (ram[0] & (0xFF << ((8 - (numbits % 8)) % 8)));
-			required = ram;
+			if (rambytes == 1) {
+				// primero ajustamos depsues hacemos lo mismo que antes
+				System.out.println(toBinaryString(ram[0]));
+				ram[0] = (byte) (ram[0] << initbits);
+				System.out.println(toBinaryString(ram[0]));
+				required[0] = (byte) ((ram[0] & 0xFF) >>> movidos);
+				System.out.println(toBinaryString(required[0]));
+			}else
+			{
+				System.out.println(toBinaryString(ram[0]));
+				ram[0] = (byte) (ram[0] << initbits);
+				System.out.println(toBinaryString(ram[0]));
+				//aqui hay un fallo con 2 bytes para 1, init bits 5 y movidos 4 ??¿¿
+				System.out.println(toBinaryString(ram[1]));
+				required[0] = (byte) ((byte) ((ram[1] & 0xFF) >>> initbits) + ( ((byte) ram[0] & 0xFF) >>> movidos));
+				
+			}
 		} else if (initbits > 0 && numbytes > 1) {
 
-			for (int i = 0; i < numbytes; i++) {
-				if (i != numbytes - 1) {
-					// esto no funciona
-					// required[i] = (byte) ((byte) (ram[i] << initbits) +
-					// (byte) (ram[i + 1] >>> (8 - initbits)));
-
-					// ajustamos
-					required[i] = (byte) ((byte) (ram[i] << initbits) + (byte) ((ram[i + 1] & 0xff) >>> (8 - initbits)));
+			// Percal...
+			int mover2 = numbytes * 8 - initbits - numbits;
+			for (int i = ram.length - 1; i >= 0; i--) {
+				// si es el ultimo solo tenemos en cuenta ese byte
+				if (i == 0) {
+					ram[i] = (byte) (ram[i] << initbits);
+					required[i] = (byte) ((ram[i] & 0xFF) >>> movidos);
 				} else {
-					// last iteration
-					// ajustamos y limitamos los ultimos bits
-					required[i] = (byte) (ram[i] << initbits);
-					ram[i] = (byte) (ram[i] & (0xFF << (8 - (numbits % 8))));
+					required[i] = (byte) ((byte) ((ram[i] & 0xFF) >>> mover2) + (byte) ((ram[i - 1] & (0xff >>> initbits)) << (8 - mover2)));
 				}
 			}
 
@@ -114,28 +136,14 @@ public class Payload {
 		return required;
 	}
 
-	public static final int byteToInt(byte[] b, int numbits) {
-
-		if (numbits % 8 != 0) {
-			b[b.length - 1] = (byte) ((b[b.length - 1] & 0xff) >>> (8 - (numbits % 8)));
-		}
+	public static final int byteToInt(byte[] b) {
 
 		int l = 0;
-		//ojo hay que mover a la derecha los bits que queden
-		//el problema es el orden de lso bits que estan segun llegan y por lo tanto complica un pooc el porceso
-		// 1º empezar por el final tomar el valor de el ultimo byte
-		// 2º mover tantos bit como el que tenga el final util
-		// en caso de haber mas de 2 bytes los utiles + 8 por cada iteracion de i
-		
-		//*** replantear por completo la funcion
-		for (int i = b.length-1; i >-1; i--) {
-			System.out.println(toBinaryString(b[i]));
+		for (int i = 0; i < b.length; i++) {
 			l |= b[i] & 0xFF;
-			System.out.println(l);
 			if (i < b.length - 1)
 				l <<= 8;
 		}
-		System.out.println(l);
 		return l;
 	}
 
