@@ -105,26 +105,9 @@ public class testwrite {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		byte a = (byte) 0x0F;
-		System.out.println(toBinaryString(a));
-		System.out.println(a);
-
-		byte b = (byte) (a >> 2);
-		byte c = (byte) ((a & 0xff) >>> 2);
-
-		System.out.println(b);
-		System.out.println(toBinaryString(b));
-		System.out.println(c);
-		System.out.println(toBinaryString(c));
-
 		String hex = "C66A43FDFFEFFF7FFBC21A10C08583A81B20D806C836815206902C8038C26880";
-		// String hex = "F0F210F0";
-		// String hex =
-		// "530C3FE0003FC7FEBFE4003FDC000000020003FF80017999F9FB9B97885";
 		binarymessage = new byte[hex.length()];
-
-		byte[] compac;
-
+		
 		System.out.println("Test program decode he to binary");
 		System.out.println(hex);
 		System.out.println(" Longitud: " + hex.length());
@@ -135,75 +118,13 @@ public class testwrite {
 		for (int i = 0; i < binarymessage.length; i++) {
 			System.out.println("Byte number " + i + " " + toBinaryString(binarymessage[i]));
 		}
-
-		// System.out.println("Give me bit 2-8");
-		// currentbit = 2;
-		// compac = new byte[1];
-		// compac = Getbits(6);
-		//
-		// for (int i = 0; i < compac.length; i++) {
-		// System.out.println("Byte number " + i + " " +
-		// toBinaryString(compac[i]));
-		// }
-		//
-		// System.out.println("Give me bit 8-18");
-		// compac = Getbits(10);
-		//
-		// for (int i = 0; i < compac.length; i++) {
-		// System.out.println("Byte number " + i + " " +
-		// toBinaryString(compac[i]));
-		// }
-		//
-		// System.out.println("Give me bit 18-27");
-		// compac = Getbits(9);
-		//
-		// for (int i = 0; i < compac.length; i++) {
-		// System.out.println("Byte number " + i + " " +
-		// toBinaryString(compac[i]));
-		// }
-
 		System.out.println();
 		System.out.println();
 		System.out.println();
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-
-		System.out.println(toBinaryString(a));
-		byte[] num = new byte[1];
-		num[0] = a;
-		System.out.println(byteToInt(num));
-
+		
 		Message message = new Message("120 14 10 31 23 00 15 26 C66A43FDFFEFFF7FFBC21A10C08583A81B20D806C836815206902C8038C26880", 1);
 		for (String print : message.WriteHumanFile()) {
 			System.out.println(print);
