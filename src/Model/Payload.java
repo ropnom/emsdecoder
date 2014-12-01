@@ -77,19 +77,14 @@ public class Payload {
 
 		// to compact byte response
 		if (initbits == 0 & numbytes == 1) {
-
 			required[0] = (byte) ((ram[0] & 0xff) >>> (8 - numbits));
-
 		} else if (initbits == 0 & numbytes > 1) {
 			// igual solo que hay que mover en todos el desfase hacia la derecha
 			for (int i = ram.length - 1; i >= 0; i--) {
 				// si es el ultimo solo tenemos en cuenta ese byte
 				if (i == 0) {
-
 					required[i] = (byte) ((ram[i] & 0xFF) >>> movidos);
-					System.out.println(toBinaryString(required[i]));
 				} else {
-
 					required[i] = (byte) ((byte) ((ram[i] & 0xFF) >>> movidos) + (byte) (ram[i - 1] << (8 - movidos)));
 				}
 			}
@@ -97,24 +92,26 @@ public class Payload {
 		} else if (initbits > 0 && numbytes == 1) {
 			if (rambytes == 1) {
 				// primero ajustamos depsues hacemos lo mismo que antes
-				System.out.println(toBinaryString(ram[0]));
+				//System.out.println(toBinaryString(ram[0]));
 				ram[0] = (byte) (ram[0] << initbits);
-				System.out.println(toBinaryString(ram[0]));
+				//System.out.println(toBinaryString(ram[0]));
 				required[0] = (byte) ((ram[0] & 0xFF) >>> movidos);
-				System.out.println(toBinaryString(required[0]));
+				//System.out.println(toBinaryString(required[0]));
 			}else
 			{
+				//Esto no funciona PERCAL!!!
 				System.out.println(toBinaryString(ram[0]));
 				ram[0] = (byte) (ram[0] << initbits);
 				System.out.println(toBinaryString(ram[0]));
 				//aqui hay un fallo con 2 bytes para 1, init bits 5 y movidos 4 ??¿¿
 				System.out.println(toBinaryString(ram[1]));
 				required[0] = (byte) ((byte) ((ram[1] & 0xFF) >>> initbits) + ( ((byte) ram[0] & 0xFF) >>> movidos));
+				System.out.println(toBinaryString(required[0]));
 				
 			}
 		} else if (initbits > 0 && numbytes > 1) {
 
-			// Percal...
+			// Percal... ESTO NO VAAA
 			int mover2 = numbytes * 8 - initbits - numbits;
 			for (int i = ram.length - 1; i >= 0; i--) {
 				// si es el ultimo solo tenemos en cuenta ese byte
@@ -128,6 +125,8 @@ public class Payload {
 
 		}
 
+		System.out.println();
+		System.out.println("Mensaje decodificado: ");
 		currentbit += numbits;
 		for (int i = 0; i < required.length; i++) {
 			System.out.println(toBinaryString(required[i]));

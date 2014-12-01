@@ -62,7 +62,9 @@ public class MessageType26 extends Payload {
 	@Override
 	public void decode() {
 
-		this.currentbit = 0;
+		// preambulo 8 bits
+		// type 6		
+		this.currentbit = 14;
 		// DECODE MESSAGE TYPE 26
 		// BAND NUMBER 4 BITS
 		this.bandnumber = byteToInt(Getbits(4));
