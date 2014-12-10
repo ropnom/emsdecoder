@@ -92,34 +92,28 @@ public class Payload {
 		} else if (initbits > 0 && numbytes == 1) {
 			if (rambytes == 1) {
 				// primero ajustamos depsues hacemos lo mismo que antes
-				//System.out.println(toBinaryString(ram[0]));
+				// System.out.println(toBinaryString(ram[0]));
 				ram[0] = (byte) (ram[0] << initbits);
-				//System.out.println(toBinaryString(ram[0]));
+				// System.out.println(toBinaryString(ram[0]));
 				required[0] = (byte) ((ram[0] & 0xFF) >>> movidos);
-				//System.out.println(toBinaryString(required[0]));
-			}else
-			{
-				//Esto no funciona PERCAL!!!
-				System.out.println(toBinaryString(ram[0]));
+				// System.out.println(toBinaryString(required[0]));
+			} else {
+				int bytederecha = 16 - initbits - numbits;
 				ram[0] = (byte) (ram[0] << initbits);
-				System.out.println(toBinaryString(ram[0]));
-				//aqui hay un fallo con 2 bytes para 1, init bits 5 y movidos 4 ??¿¿
-				System.out.println(toBinaryString(ram[1]));
-				required[0] = (byte) ((byte) ((ram[1] & 0xFF) >>> initbits) + ( ((byte) ram[0] & 0xFF) >>> movidos));
-				System.out.println(toBinaryString(required[0]));
-				
+				required[0] = (byte) ((byte) ((ram[1] & 0xFF) >>> bytederecha) + (((byte) ram[0] & 0xFF) >>> 8 - numbits));
+
 			}
 		} else if (initbits > 0 && numbytes > 1) {
 
-			// Percal... ESTO NO VAAA
 			int mover2 = numbytes * 8 - initbits - numbits;
 			for (int i = ram.length - 1; i >= 0; i--) {
 				// si es el ultimo solo tenemos en cuenta ese byte
 				if (i == 0) {
 					ram[i] = (byte) (ram[i] << initbits);
-					required[i] = (byte) ((ram[i] & 0xFF) >>> movidos);
+					required[i] = (byte) ((ram[i] & 0xFF) >>> (initbits+mover2));
 				} else {
-					required[i] = (byte) ((byte) ((ram[i] & 0xFF) >>> mover2) + (byte) ((ram[i - 1] & (0xff >>> initbits)) << (8 - mover2)));
+					
+					required[i] = (byte) ((byte) ((ram[i] & 0xFF) >>> mover2) + (byte) (ram[i - 1] << (8 - mover2)));
 				}
 			}
 
