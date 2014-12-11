@@ -7,8 +7,8 @@ public class MessageType26 extends Payload {
 	// subclass inside
 	public class GridPoint {
 
-		private float IGP_VerticalDelay = 0;
-		private short GIVEI = 0;
+		protected float IGP_VerticalDelay = 0;
+		protected short GIVEI = 0;
 
 		public GridPoint() {
 
@@ -42,14 +42,14 @@ public class MessageType26 extends Payload {
 
 	}
 
-	private static final int BLOCK_GRID_POINTS = 15;
+	protected static final int BLOCK_GRID_POINTS = 15;
 
 	// Parameters
 
-	private int bandnumber;
-	private int blockid;
-	private GridPoint[] gridpoints;
-	private int ioid;
+	protected int bandnumber;
+	protected int blockid;
+	protected GridPoint[] gridpoints;
+	protected int ioid;
 
 	public MessageType26() {
 		this.gridpoints = new GridPoint[15];

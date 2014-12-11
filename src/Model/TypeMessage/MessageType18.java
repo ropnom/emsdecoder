@@ -5,10 +5,10 @@ import Model.Payload;
 public class MessageType18 extends Payload {
 
 	// parameters
-	private int numberofbands;
-	private int bandnumber;
-	private int iodi;
-	private byte[] igpmask;
+	protected int numberofbands;
+	protected int bandnumber;
+	protected int iodi;
+	protected byte[] igpmask;
 
 	public MessageType18() {
 
@@ -22,7 +22,10 @@ public class MessageType18 extends Payload {
 	@Override
 	public void decode() {
 
-		this.currentbit = 0;
+		// preambulo 8 bits
+		// type 6
+		this.currentbit = 14;
+
 		// DECODE MESSAGE TYPE 18
 
 		// Number of Bands (4 bits)
@@ -33,6 +36,8 @@ public class MessageType18 extends Payload {
 		this.iodi = byteToInt(Getbits(2));
 		// 201 bits MASK FIELD
 		this.igpmask = Getbits(201);
+		//13 bit spare
+		//parity
 
 	}
 
@@ -80,6 +85,4 @@ public class MessageType18 extends Payload {
 		this.igpmask = igpmask;
 	}
 
-	
-	
 }

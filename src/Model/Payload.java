@@ -110,9 +110,9 @@ public class Payload {
 				// si es el ultimo solo tenemos en cuenta ese byte
 				if (i == 0) {
 					ram[i] = (byte) (ram[i] << initbits);
-					required[i] = (byte) ((ram[i] & 0xFF) >>> (initbits+mover2));
+					required[i] = (byte) ((ram[i] & 0xFF) >>> (initbits + mover2));
 				} else {
-					
+
 					required[i] = (byte) ((byte) ((ram[i] & 0xFF) >>> mover2) + (byte) (ram[i - 1] << (8 - mover2)));
 				}
 			}
@@ -138,6 +138,17 @@ public class Payload {
 				l <<= 8;
 		}
 		return l;
+	}
+	
+	public static final boolean byteToBoolean(byte[] b) {
+
+		if (b[0]>0){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	// ******** GETS y SETS ****
